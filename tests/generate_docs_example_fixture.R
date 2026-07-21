@@ -513,7 +513,11 @@ copy_required_file <- function(from, to) {
 }
 
 copy_docs_examples <- function(fixture_root) {
-    docs_output_dir <- file.path(repo_root, "docs", "output-examples")
+    docs_output_dir <- Sys.getenv(
+        "PROTEOME_PROFILER_DOCS_OUTPUT_DIR",
+        unset = file.path(repo_root, "docs", "output-examples")
+    )
+    docs_output_dir <- path.expand(docs_output_dir)
     dir.create(docs_output_dir, recursive = TRUE, showWarnings = FALSE)
     remove_stale_docs_examples(docs_output_dir)
 
