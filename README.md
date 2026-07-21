@@ -231,7 +231,7 @@ PROTEOME_PROFILER_MODE=replicate
 PROTEOME_PROFILER_USER=demo_user
 PROTEOME_PROFILER_SLUG=demo_control_vs_treated
 
-PROTEOME_PROFILER_RUNTIME_ROOT=~/ProjectsRuntime/proteome_profiler
+PROTEOME_PROFILER_RUNTIME_ROOT=/Users/ncamarda/Workspaces/proteome-profiler/runtime
 PROTEOME_PROFILER_CLOUD_PARENT=
 
 PROTEOME_PROFILER_PROTOCOL_PRESET=cytokine_xl

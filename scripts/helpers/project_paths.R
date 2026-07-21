@@ -273,7 +273,7 @@ build_proteome_profiler_config_from_env <- function() {
 
     list(
         default_analysis = analysis_name,
-        runtime_root = env_value("PROTEOME_PROFILER_RUNTIME_ROOT", "~/ProjectsRuntime/proteome_profiler"),
+        runtime_root = env_value("PROTEOME_PROFILER_RUNTIME_ROOT", "/Users/ncamarda/Workspaces/proteome-profiler/runtime"),
         cloud_parent = env_value("PROTEOME_PROFILER_CLOUD_PARENT", ""),
         analyses = stats::setNames(list(analysis_config), analysis_name)
     )
