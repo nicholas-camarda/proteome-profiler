@@ -10,7 +10,7 @@ load_analysis_packages(include_parallel = TRUE)
 
 proteome_profiler_config <- list(
     runtime_root = tempdir(),
-    cloud_parent = tempdir(),
+    vault_root = tempdir(),
     analyses = list()
 )
 
@@ -234,9 +234,9 @@ write_env_lines <- function(path, values) {
     writeLines(stats::na.omit(lines), path)
 }
 
-write_env_fixture <- function(path, runtime_root, cloud_parent = tempfile("cloud-root-"), analysis_name = "exploratory_smoke", include_selected_analytes = TRUE) {
+write_env_fixture <- function(path, runtime_root, vault_root = tempfile("vault-root-"), analysis_name = "exploratory_smoke", include_selected_analytes = TRUE) {
     dir.create(runtime_root, recursive = TRUE, showWarnings = FALSE)
-    dir.create(cloud_parent, recursive = TRUE, showWarnings = FALSE)
+    dir.create(vault_root, recursive = TRUE, showWarnings = FALSE)
 
     protocol_path <- file.path(runtime_root, "output", "protocol.xlsx")
     protocol_pdf_path <- file.path(runtime_root, "protocols", "mock_protocol.pdf")
@@ -257,7 +257,7 @@ write_env_fixture <- function(path, runtime_root, cloud_parent = tempfile("cloud
     common_values <- list(
         PROTEOME_PROFILER_ANALYSIS = analysis_name,
         PROTEOME_PROFILER_RUNTIME_ROOT = runtime_root,
-        PROTEOME_PROFILER_CLOUD_PARENT = cloud_parent,
+        PROTEOME_PROFILER_VAULT_ROOT = vault_root,
         PROTEOME_PROFILER_USER = "tester",
         PROTEOME_PROFILER_PROTOCOL_PRESET = "cytokine_xl",
         PROTEOME_PROFILER_PROTOCOL_WORKBOOK = "output/protocol.xlsx",

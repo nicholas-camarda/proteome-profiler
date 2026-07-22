@@ -124,7 +124,7 @@ proteome_profiler_env_names <- function() {
         "PROTEOME_PROFILER_USER",
         "PROTEOME_PROFILER_SLUG",
         "PROTEOME_PROFILER_RUNTIME_ROOT",
-        "PROTEOME_PROFILER_CLOUD_PARENT",
+        "PROTEOME_PROFILER_VAULT_ROOT",
         "PROTEOME_PROFILER_PROTOCOL_PRESET",
         "PROTEOME_PROFILER_PROTOCOL_WORKBOOK",
         "PROTEOME_PROFILER_PROTOCOL_PDF",
@@ -274,7 +274,7 @@ build_proteome_profiler_config_from_env <- function() {
     list(
         default_analysis = analysis_name,
         runtime_root = env_value("PROTEOME_PROFILER_RUNTIME_ROOT", "/Users/ncamarda/Workspaces/proteome-profiler/runtime"),
-        cloud_parent = env_value("PROTEOME_PROFILER_CLOUD_PARENT", ""),
+        vault_root = env_value("PROTEOME_PROFILER_VAULT_ROOT", ""),
         analyses = stats::setNames(list(analysis_config), analysis_name)
     )
 }
@@ -326,9 +326,10 @@ get_analysis_mode <- function(example_config) {
 
 #' Build candidate filesystem locations for a project-relative path
 #'
-#' The repository uses a split layout where code, runtime outputs, and cloud
-#' copies may live in different roots. This helper returns the search order used
-#' throughout the project: repo checkout, runtime workspace, then cloud backup.
+#' The repository uses a split layout where code, runtime outputs, and selected
+#' durable records may live in different roots. This helper returns the search
+#' order used throughout the project: repo checkout, runtime workspace, then an
+#' explicitly configured Project Vault root.
 #'
 #' @param path Project-relative path to resolve.
 #'
@@ -336,9 +337,9 @@ get_analysis_mode <- function(example_config) {
 path_candidates <- function(path) {
     ensure_runtime_config()
     runtime_root <- path.expand(proteome_profiler_config$runtime_root)
-    cloud_parent <- proteome_profiler_config$cloud_parent
-    cloud_project_root <- if (!is_blank_value(cloud_parent)) {
-        file.path(path.expand(cloud_parent), "proteome_profiler")
+    vault_root <- proteome_profiler_config$vault_root
+    configured_vault_root <- if (!is_blank_value(vault_root)) {
+        path.expand(vault_root)
     } else {
         NULL
     }
@@ -346,15 +347,15 @@ path_candidates <- function(path) {
     unique(c(
         file.path(repo_root, path),
         file.path(runtime_root, path),
-        if (!is.null(cloud_project_root)) file.path(cloud_project_root, path)
+        if (!is.null(configured_vault_root)) file.path(configured_vault_root, path)
     ))
 }
 
 #' Resolve a project-relative path against the known storage roots
 #'
 #' Looks for an existing match across the repo checkout, runtime workspace, and
-#' cloud copy. When `must_exist = FALSE`, it returns the canonical runtime path
-#' where new outputs should be written.
+#' explicitly configured Project Vault root. When `must_exist = FALSE`, it
+#' returns the canonical runtime path where new outputs should be written.
 #'
 #' @param path Project-relative path to resolve.
 #' @param must_exist Logical. When `TRUE`, error if the path cannot be found.
