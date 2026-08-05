@@ -303,7 +303,7 @@ build_exploratory_env_values <- function(fixture_root, low_signal_coords, select
         PROTEOME_PROFILER_USER = "docs",
         PROTEOME_PROFILER_SLUG = "docs_exploratory_examples",
         PROTEOME_PROFILER_RUNTIME_ROOT = fixture_root,
-        PROTEOME_PROFILER_CLOUD_PARENT = fixture_root,
+        PROTEOME_PROFILER_VAULT_ROOT = fixture_root,
         PROTEOME_PROFILER_PROTOCOL_PRESET = "cytokine_xl",
         PROTEOME_PROFILER_PROTOCOL_WORKBOOK = "tests/test_output/docs_example_fixture/input/mock_protocol.xlsx",
         PROTEOME_PROFILER_INPUT_MANIFEST = "tests/test_output/docs_example_fixture/manifests/exploratory_samples.csv",
@@ -326,7 +326,7 @@ build_replicate_env_values <- function(fixture_root, low_signal_coords, selected
         PROTEOME_PROFILER_USER = "docs",
         PROTEOME_PROFILER_SLUG = "docs_replicate_examples",
         PROTEOME_PROFILER_RUNTIME_ROOT = fixture_root,
-        PROTEOME_PROFILER_CLOUD_PARENT = fixture_root,
+        PROTEOME_PROFILER_VAULT_ROOT = fixture_root,
         PROTEOME_PROFILER_PROTOCOL_PRESET = "cytokine_xl",
         PROTEOME_PROFILER_PROTOCOL_WORKBOOK = "tests/test_output/docs_example_fixture/input/mock_protocol.xlsx",
         PROTEOME_PROFILER_INPUT_MANIFEST = "tests/test_output/docs_example_fixture/manifests/replicate_samples.csv",
@@ -513,7 +513,11 @@ copy_required_file <- function(from, to) {
 }
 
 copy_docs_examples <- function(fixture_root) {
-    docs_output_dir <- file.path(repo_root, "docs", "output-examples")
+    docs_output_dir <- Sys.getenv(
+        "PROTEOME_PROFILER_DOCS_OUTPUT_DIR",
+        unset = file.path(repo_root, "docs", "output-examples")
+    )
+    docs_output_dir <- path.expand(docs_output_dir)
     dir.create(docs_output_dir, recursive = TRUE, showWarnings = FALSE)
     remove_stale_docs_examples(docs_output_dir)
 

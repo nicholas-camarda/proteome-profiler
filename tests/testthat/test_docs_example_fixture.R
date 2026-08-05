@@ -2,11 +2,15 @@ test_that("synthetic docs example fixture regenerates public-safe docs outputs",
     old_wd <- setwd(repo_root)
     on.exit(setwd(old_wd), add = TRUE)
 
+    docs_output_dir <- file.path(tempdir(), "proteome-profiler-docs-output-examples")
+    unlink(docs_output_dir, recursive = TRUE, force = TRUE)
+
     script_output <- system2(
         file.path(R.home("bin"), "Rscript"),
         "tests/generate_docs_example_fixture.R",
         stdout = TRUE,
-        stderr = TRUE
+        stderr = TRUE,
+        env = sprintf("PROTEOME_PROFILER_DOCS_OUTPUT_DIR=%s", docs_output_dir)
     )
     script_status <- attr(script_output, "status")
     expect_true(
@@ -14,7 +18,6 @@ test_that("synthetic docs example fixture regenerates public-safe docs outputs",
         info = paste(script_output, collapse = "\n")
     )
 
-    docs_output_dir <- file.path(repo_root, "docs", "output-examples")
     expected_docs_files <- file.path(docs_output_dir, c(
         "replicate-aware-inferential-waterfall-example.png",
         "replicate-aware-inferential-barplot-example-page-1.png",

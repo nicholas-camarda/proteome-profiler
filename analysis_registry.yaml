@@ -1,0 +1,6 @@
+project_slug: proteome-profiler
+repository: proteome-profiler
+project_type: research
+runtime_home: ~/Workspaces/proteome-profiler/runtime
+cloud_home: "~/Library/CloudStorage/OneDrive-Personal/Project Vault/Research/proteome-profiler"
+publish_root_name: outputs

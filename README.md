@@ -29,7 +29,7 @@ Before editing `.env`, gather these files:
 Use this layout inside the repository so the example paths below work directly:
 
 ```text
-proteome_profiler/
+proteome-profiler/
   .env
   manifests/
     my_samples.csv
@@ -49,7 +49,7 @@ Relative paths in `.env` and the manifest are resolved against:
 ```text
 1. the repository folder
 2. PROTEOME_PROFILER_RUNTIME_ROOT
-3. PROTEOME_PROFILER_CLOUD_PARENT/proteome_profiler, if configured
+3. PROTEOME_PROFILER_VAULT_ROOT, if explicitly configured
 ```
 
 Absolute paths are also allowed.
@@ -63,8 +63,8 @@ On macOS, open **Terminal** from Applications, Spotlight, or Launchpad.
 ### 2. Clone The Repository
 
 ```bash
-git clone https://github.com/nicholas-camarda/proteome_profiler.git
-cd proteome_profiler
+git clone https://github.com/nicholas-camarda/proteome-profiler.git
+cd proteome-profiler
 ```
 
 ### 3. Install R Dependencies
@@ -231,8 +231,9 @@ PROTEOME_PROFILER_MODE=replicate
 PROTEOME_PROFILER_USER=demo_user
 PROTEOME_PROFILER_SLUG=demo_control_vs_treated
 
-PROTEOME_PROFILER_RUNTIME_ROOT=~/ProjectsRuntime/proteome_profiler
-PROTEOME_PROFILER_CLOUD_PARENT=
+PROTEOME_PROFILER_RUNTIME_ROOT=/Users/ncamarda/Workspaces/proteome-profiler/runtime
+# Optional: full Project Vault project root for deliberate durable-record lookup.
+PROTEOME_PROFILER_VAULT_ROOT=
 
 PROTEOME_PROFILER_PROTOCOL_PRESET=cytokine_xl
 PROTEOME_PROFILER_PROTOCOL_WORKBOOK=protocols/cytokine_array_protocol.xlsx
